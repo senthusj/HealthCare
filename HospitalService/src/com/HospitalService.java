@@ -33,4 +33,27 @@ public class HospitalService {
 		return output;
 	}
 
+	@PUT
+	@Path("/")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String updateHospital(String hospitalData) {
+		// Convert the input string to a JSON object
+		JsonObject hospitalObject = new JsonParser().parse(hospitalData).getAsJsonObject();
+		// Read the values from the JSON object
+		String hospitalID = hospitalObject.get("hospitalID").getAsString();
+		String hospitalCode = hospitalObject.get("hospitalCode").getAsString();
+		String name = hospitalObject.get("name").getAsString();
+		String chiefDoc = hospitalObject.get("chiefDoc").getAsString();
+		String type = hospitalObject.get("type").getAsString();
+		String phone = hospitalObject.get("phone").getAsString();
+		String address = hospitalObject.get("address").getAsString();
+		String desc = hospitalObject.get("desc").getAsString();
+
+		String output = hospitalObj.updateHospital(hospitalID, hospitalCode, name, chiefDoc, type, phone, address,
+				desc);
+
+		return output;
+	}
+
 }

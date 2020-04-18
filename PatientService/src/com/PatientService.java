@@ -37,4 +37,40 @@ public class PatientService {
 				bloodGroup, nextOfKin);
 		return output;
 	}
+
+	@PUT
+	@Path("/")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String updatePatientDetails(String patientData) {
+		// Convert the input string to a JSON object
+		JsonObject patientObject = new JsonParser().parse(patientData).getAsJsonObject();
+		// Read the values from the JSON object
+		String Pno = patientObject.get("Pno").getAsString();
+		String patientID = patientObject.get("patientID").getAsString();
+		String firstname = patientObject.get("firstname").getAsString();
+		String lastName = patientObject.get("lastName").getAsString();
+		String gender = patientObject.get("gender").getAsString();
+		String phone = patientObject.get("phone").getAsString();
+		String address = patientObject.get("address").getAsString();
+		String age = patientObject.get("age").getAsString();
+		String bloodGroup = patientObject.get("bloodGroup").getAsString();
+		String nextOfKin = patientObject.get("nextOfKin").getAsString();
+		String output = patientObj.updatePatientDetails(Pno, patientID, firstname, lastName, gender, phone, address,
+				age, bloodGroup, nextOfKin);
+		return output;
+	}
+
+	@DELETE
+	@Path("/")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String deletePatientDetails(String patientData) {
+		// Convert the input string to an XML document
+		Document doc = Jsoup.parse(patientData, "", Parser.xmlParser());
+		// Read the value from the element <patientID>
+		String patientID = doc.select("patientID").text();
+		String output = patientObj.deletePatientDetails(patientID);
+		return output;
+	}
 }

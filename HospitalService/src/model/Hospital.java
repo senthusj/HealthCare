@@ -47,4 +47,51 @@ public class Hospital { // A common method to connect to the DB
 		}
 		return output;
 	}
+
+	public String readHospitals() {
+		String output = "";
+		try {
+			Connection con = connect();
+			if (con == null) {
+				return "Error while connecting to the database for reading.";
+			}
+// Prepare the html table to be displayed
+			output = "<table border=\"1\"><tr><th>Hospital Code</th><th>Hospital Name</th><th>Chief Doc</th><th>Type</th><th>Phone</th><th>Address</th><th>Description</th></tr>";
+			String query = "select * from Hospitals";
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+// iterate through the rows in the result set
+			while (rs.next()) {
+				String hospitalID = Integer.toString(rs.getInt("hospitalID"));
+				String hospitalCode = rs.getString("hospitalCode");
+				String name = rs.getString("name");
+				String chiefDoc = rs.getString("chiefDoc");
+				String type = rs.getString("type");
+				String phone = Integer.toString(rs.getInt("phone"));
+				String address = rs.getString("address");
+				String desc = rs.getString("desc");
+
+// Add into the html table
+				output += "<tr><td>" + hospitalCode + "</td>";
+				output += "<td>" + name + "</td>";
+				output += "<td>" + chiefDoc + "</td>";
+				output += "<td>" + type + "</td>";
+				output += "<td>" + phone + "</td>";
+				output += "<td>" + address + "</td>";
+				output += "<td>" + desc + "</td>";
+
+// buttons
+				output += "<input name=\"hospitalID\" type=\"hidden\" value=\"" + hospitalID + "\">"
+						+ "</form></td></tr>";
+			}
+			con.close();
+// Complete the html table
+			output += "</table>";
+		} catch (Exception e) {
+			output = "Error while reading the hospitals.";
+			System.err.println(e.getMessage());
+		}
+		return output;
+	}
+
 }

@@ -53,4 +53,53 @@ public class Patient { // A common method to connect to the DB
 		return output;
 	}
 
+	public String getPatientDetails() {
+		String output = "";
+		try {
+			Connection con = connect();
+			if (con == null) {
+				return "Error dtabase don't have any data.";
+			}
+// Prepare the html table to be displayed
+			output = "<table border=\"1\"><tr><th>patient ID</th><th>Patient firstname</th><th>lastName</th><th>Gender</th><th>Phone</th><th>Address</th><th>Age</th><th>Blood Group</th><th>NextOfKin</th></tr>";
+			String query = "select * from patients";
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+// iterate through the rows in the result set
+			while (rs.next()) {
+				String patientID = rs.getString("patientID");
+				String firstname = rs.getString("firstname");
+				String lastName = rs.getString("lastName");
+				String gender = rs.getString("gender");
+				String phone = rs.getString("phone");
+				String address = rs.getString("address");
+				String age = rs.getString("age");
+				String bloodGroup = rs.getString("bloodGroup");
+				String nextOfKin = rs.getString("nextOfKin");
+
+// Add into the html table
+				output += "<tr><td>" + patientID + "</td>";
+				output += "<td>" + firstname + "</td>";
+				output += "<td>" + lastName + "</td>";
+				output += "<td>" + gender + "</td>";
+				output += "<td>" + phone + "</td>";
+				output += "<td>" + address + "</td>";
+				output += "<td>" + age + "</td>";
+				output += "<td>" + bloodGroup + "</td>";
+				output += "<td>" + nextOfKin + "</td>";
+
+// buttons
+				output += "<input name=\"patientID\" type=\"hidden\" value=\"" + patientID + "\">"
+						+ "</form></td></tr>";
+			}
+			con.close();
+// Complete the html table
+			output += "</table>";
+		} catch (Exception e) {
+			output = "Error while reading the Patient.";
+			System.err.println(e.getMessage());
+		}
+		return output;
+	}
+
 }

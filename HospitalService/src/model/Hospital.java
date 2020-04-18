@@ -94,4 +94,34 @@ public class Hospital { // A common method to connect to the DB
 		return output;
 	}
 
+	public String updateHospital(String ID, String hospitalCode, String name, String chiefDoc, String type,
+			String phone, String address, String desc) {
+		String output = "";
+		try {
+			Connection con = connect();
+			if (con == null) {
+				return "Error while connecting to the database for updating.";
+			}
+// create a prepared statement
+			String query = "UPDATE Hospitals SET `hospitalCode`=? ,`name`=?, `chiefDoc`=?, `type`=?, `phone`=?, `address`=?, `desc`=? WHERE `hospitalID` = ?";
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+// binding values
+			preparedStmt.setString(1, hospitalCode);
+			preparedStmt.setString(2, name);
+			preparedStmt.setString(3, chiefDoc);
+			preparedStmt.setString(4, type);
+			preparedStmt.setInt(5, Integer.parseInt(phone));
+			preparedStmt.setString(6, address);
+			preparedStmt.setString(7, desc);
+			preparedStmt.setInt(8, Integer.parseInt(ID));
+// execute the statement
+			preparedStmt.execute();
+			con.close();
+			output = "Updated successfully";
+		} catch (Exception e) {
+			output = "Error while updating a Hospital detail.";
+			System.err.println(e.getMessage());
+		}
+		return output;
+	}
 }

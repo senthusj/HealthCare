@@ -124,4 +124,28 @@ public class Hospital { // A common method to connect to the DB
 		}
 		return output;
 	}
+
+	public String deleteHospital(String hospitalID) {
+		String output = "";
+		try {
+			Connection con = connect();
+			if (con == null) {
+				return "Error while connecting to the database for deleting.";
+			}
+// create a prepared statement
+			String query = "delete from hospitals where hospitalID =?";
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+// binding values
+			preparedStmt.setInt(1, Integer.parseInt(hospitalID));
+// execute the statement
+			preparedStmt.execute();
+			con.close();
+
+			output = "Deleted successfully";
+		} catch (Exception e) {
+			output = "Error while deleting the Hospital detail.";
+			System.err.println(e.getMessage());
+		}
+		return output;
+	}
 }

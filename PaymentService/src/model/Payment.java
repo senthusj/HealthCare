@@ -61,6 +61,59 @@ public class Payment {
 	 
 	  return output;  
 	}
-	
+	public String readpaymentdetails()
+	{   
+		String output = ""; 
+	 
+	  try   
+	  {    
+		  Connection con = connect(); 
+	 
+	   if (con == null)
+	   {return "Error while connecting to the database for reading."; } 
+	 
+	   // Prepare the html table to be displayed   
+	   output = "<table border=\"1\"><tr><th>paymentId</th><th>CARD_NUMBER</th><th>EXPIRATIONEXP_DATE</th><th>CV_CODE</th><th>COUPON_CODE</th></tr>"; 
+	 
+	   String query = "select * from payment";
+	   Statement stmt = con.createStatement();
+	   ResultSet rs = stmt.executeQuery(query); 
+	 
+	   // iterate through the rows in the result set    
+	   while (rs.next())    
+	   {      
+		   String paymentID = rs.getString("paymentID");
+	   	   String CARD_NUMBER = rs.getString("CARD_NUMBER"); 
+		   String EXPIRATIONEXP_DATE=rs.getString("EXPIRATIONEXP_DATE");
+		   String CV_CODE = rs.getString("CV_CODE");
+		   String COUPON_CODE = rs.getString("COUPON_CODE"); 
+	   
+	 
+	    	// Add into the html table     
+	   		output += "<tr>"+"<td>" + paymentID + "</td>"; 
+	   		output += "<td>" + CARD_NUMBER  + "</td>";
+	   		output += "<td>" + EXPIRATIONEXP_DATE  + "</td>";
+	   		output += "<td>" + CV_CODE + "</td>";
+	   		output += "<td>" + COUPON_CODE + "</td>"; 
+	   		
+	   	// buttons     
+	   		output +="<input name=\"paymentID\" type=\"hidden\" value=\"" + paymentID      
+	   				+ "\">" + "</form></td></tr>"; 
+	   		
+	   } 
+	 
+	   con.close(); 
+	 
+	   // Complete the html table
+	   output += "</table>";  
+	   }  
+		catch (Exception e)   
+		{    
+			output = "Error while reading the payment.";
+			System.err.println(e.getMessage());  
+		} 
+	 
+	  return output;  
+	  }
 	
 }

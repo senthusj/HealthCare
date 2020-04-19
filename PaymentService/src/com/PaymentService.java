@@ -36,4 +36,12 @@ public class PaymentService {
 		return output; 
 	} 
 	
+	@GET 
+	@Path("/")
+	@Produces(MediaType.TEXT_HTML)
+	public String readpaymentdetails()  
+	{   
+		return paymentObj.readpaymentdetails();  
+	}
+	
 }

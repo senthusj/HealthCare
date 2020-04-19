@@ -1,6 +1,7 @@
 package com;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -67,5 +68,20 @@ public class PaymentService {
 		 
 		 return output; 
 		 } 
+	
+	@DELETE
+	@Path("/")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String deletepaymentdetails(String paymentdata) 
+	{  
+		//Convert the input string to an XML document  
+		Document doc = Jsoup.parse(paymentdata, "", Parser.xmlParser());
+		//Read the value from the element <payno>  
+		String payno = doc.select("payno").text(); 
+		 
+		 String output = paymentObj.deletepaymentdetails(payno); 
+		 
+		 return output; } 
 	
 }

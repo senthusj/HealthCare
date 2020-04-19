@@ -22,6 +22,9 @@ import model.Appointment;
 public class AppointmentService {
 	Appointment appointmentObj = new Appointment();
 	
+	@GET
+	@Path("/")
+	@Produces(MediaType.TEXT_HTML)
 	public String readItems() {
 		return appointmentObj.readAppointment();
 	}

@@ -116,4 +116,44 @@ public class Payment {
 	  return output;  
 	  }
 	
+	public String updatepaymentdetails(String payno,String paymentID,String CARD_NUMBER , String EXPIRATIONEXP_DATE, String CV_CODE , String COUPON_CODE)
+	{   
+		String output = ""; 
+	 
+	  try   
+	  {    
+		  Connection con = connect(); 
+	 
+		  if (con == null)
+		  {return "Error while connecting to the database for updating."; } 
+	 
+	   // create a prepared statement    
+		  String query = "UPDATE payment SET `paymentID`=?,CARD_NUMBER=?,EXPIRATIONEXP_DATE=?,CV_CODE=?,COUPON_CODE=?      WHERE payno=?"; 
+	 
+		  PreparedStatement preparedStmt = con.prepareStatement(query); 
+	 
+	   // binding values 
+		  preparedStmt.setString(1, paymentID);
+		  preparedStmt.setString(2, CARD_NUMBER);
+		  preparedStmt.setString(3, EXPIRATIONEXP_DATE);
+		  preparedStmt.setString(4, CV_CODE);
+		  preparedStmt.setString(5, COUPON_CODE);
+		  preparedStmt.setInt(6, Integer.parseInt(payno));
+		  
+	 
+	   // execute the statement    
+		  preparedStmt.execute();
+		  con.close(); 
+	 
+	   output = "Updated successfully";
+	   }   
+	  catch (Exception e)
+	  {    output = "Error while updating the payment details.";
+	  System.err.println(e.getMessage());   
+	  } 
+	 
+	  return output;  
+	  } 
+	
+	
 }

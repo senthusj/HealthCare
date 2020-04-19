@@ -44,4 +44,28 @@ public class PaymentService {
 		return paymentObj.readpaymentdetails();  
 	}
 	
+	@PUT
+	@Path("/") 
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN) 
+	public String updatepaymentdetails(String paymentdata) 
+	{
+		//Convert the input string to a 
+		  JsonObject paymentObject = new JsonParser().parse(paymentdata).getAsJsonObject(); 
+		 
+		 //Read the values from the JSON object  
+		  String payno = paymentObject.get("payno").getAsString();
+		  String paymentID = paymentObject.get("paymentID").getAsString();
+		  String CARD_NUMBER =paymentObject.get("CARD_NUMBER").getAsString(); 
+		  String EXPIRATIONEXP_DATE= paymentObject.get("EXPIRATIONEXP_DATE").getAsString();
+		  String CV_CODE = paymentObject.get("CV_CODE").getAsString();
+		  String COUPON_CODE =paymentObject.get("COUPON_CODE").getAsString(); 
+		  
+		
+		  
+		  String output = paymentObj.updatepaymentdetails( payno,paymentID,CARD_NUMBER, EXPIRATIONEXP_DATE, CV_CODE,COUPON_CODE); 
+		 
+		 return output; 
+		 } 
+	
 }
